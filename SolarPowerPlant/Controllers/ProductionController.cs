@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolarPowerAPI.CustomActionFilters;
-using SolarPowerAPI.Enums;
 using SolarPowerAPI.Models.DTOs.ProductionDTOs;
-using SolarPowerAPI.Models.DTOs.SolarPlantDTOs;
 using SolarPowerAPI.Models.Entities;
 using SolarPowerAPI.Repositories;
 
@@ -25,6 +23,7 @@ namespace SolarPowerAPI.Controllers
 
         [HttpGet]
         [ValidateModel]
+        [Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetProduction([FromQuery] GetProductionRequestDto getProductionRequest) 
         {
             List<Production>? production = await _repository.GetProductionAsync(getProductionRequest);

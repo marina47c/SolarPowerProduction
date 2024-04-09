@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SolarPowerAPI.CustomActionFilters;
-using SolarPowerAPI.Data;
 using SolarPowerAPI.Models.DTOs.SolarPlantDTOs;
 using SolarPowerAPI.Models.Entities;
 using SolarPowerAPI.Repositories;
-using System.Collections.Generic;
 
 namespace SolarPowerPlantAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class SolarPlantController : ControllerBase
     {
         private readonly ISolarPlantRepo _repository;
@@ -23,6 +22,7 @@ namespace SolarPowerPlantAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetAll()
         {
             List<SolarPlant> solarPlants = await _repository.GetAllAsync();
@@ -32,6 +32,7 @@ namespace SolarPowerPlantAPI.Controllers
         }
 
         [HttpGet("{id:Guid}", Name = "GetById")]
+        [Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetById(Guid id)
         {
             SolarPlant? solarPlant = await _repository.GetByIdAsync(id);
@@ -48,6 +49,7 @@ namespace SolarPowerPlantAPI.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddSolarPlantRequestDto addSolarPlantDto)
         {
             if (addSolarPlantDto == null)
@@ -64,6 +66,7 @@ namespace SolarPowerPlantAPI.Controllers
 
         [HttpPut("{id:Guid}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSolarPlantRequestDto solarPlantDTO)
         {
             if (solarPlantDTO == null)
@@ -84,6 +87,7 @@ namespace SolarPowerPlantAPI.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             SolarPlant? deletedSolarPlant = await _repository.DeleteAsync(id);
