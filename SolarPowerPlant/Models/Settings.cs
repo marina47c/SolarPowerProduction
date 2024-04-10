@@ -4,6 +4,7 @@
     {
         public ConnectionStrings? ConnectionStrings { get; set; }
         public Jwt? Jwt { get; set; }
+        public string? LogsLocation { get; set; }
     }
 
     public class ConnectionStrings

@@ -10,8 +10,21 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using SolarPowerAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Settings? settings = builder.Configuration.GetSection("Settings").Get<Settings>();
+
+var logger = new LoggerConfiguration()
+    .WriteTo.File(path: settings?.LogsLocation ?? "Logs/SolarPower_log.txt", rollingInterval: RollingInterval.Day)
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddTransient<SolarPlantsMock>();
 builder.Services.AddTransient<ProductionMock>();
 builder.Services.AddTransient<RolesMock>();
@@ -53,7 +66,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-Settings? settings = builder.Configuration.GetSection("Settings").Get<Settings>();
 builder.Services.AddDbContext<SolarPowerContext>(opt => opt.UseSqlServer(settings?.ConnectionStrings?.SolarPowerConnectionString));
 builder.Services.AddDbContext<SolarPowerAuthContext>(opt => opt.UseSqlServer(settings?.ConnectionStrings?.SolarPowerAuthConnectionString));
 
@@ -99,6 +111,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
