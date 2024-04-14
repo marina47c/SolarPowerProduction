@@ -23,7 +23,7 @@ namespace SolarPowerAPI.Controllers
 
         [HttpGet]
         [ValidateModel]
-        [Authorize(Roles = "Reader, Writer")]
+        //[Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetProduction([FromQuery] GetProductionRequestDto getProductionRequest) 
         {
             List<Production>? production = await _repository.GetProductionAsync(getProductionRequest);

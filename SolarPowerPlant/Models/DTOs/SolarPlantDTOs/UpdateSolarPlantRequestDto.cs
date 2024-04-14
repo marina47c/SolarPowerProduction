@@ -4,7 +4,7 @@
     {
         public string? Name { get; set; }
 
-        public int InstalledPower { get; set; }
+        public double InstalledPower { get; set; }
 
         public DateTime DateOfInstallation { get; set; }
 

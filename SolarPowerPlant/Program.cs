@@ -12,14 +12,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using SolarPowerAPI.Middlewares;
+using SolarPowerAPI.PredictProductionHelpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 Settings? settings = builder.Configuration.GetSection("Settings").Get<Settings>();
 
+//TODO: remove console, uncomment file logging
 var logger = new LoggerConfiguration()
-    .WriteTo.File(path: settings?.LogsLocation ?? "Logs/SolarPower_log.txt", rollingInterval: RollingInterval.Day)
-    .MinimumLevel.Information()
+    .WriteTo.Console()
+    //.WriteTo.File(path: settings?.LogsLocation ?? "Logs/SolarPower_log.txt", rollingInterval: RollingInterval.Day)
+    .MinimumLevel.Warning()
     .CreateLogger();
 
 builder.Logging.ClearProviders();
@@ -28,6 +31,8 @@ builder.Logging.AddSerilog(logger);
 builder.Services.AddTransient<SolarPlantsMock>();
 builder.Services.AddTransient<ProductionMock>();
 builder.Services.AddTransient<RolesMock>();
+//TODO: to be transient, or not to be..., to create interface or not to create...
+builder.Services.AddTransient<PredictProductionHelper>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
@@ -73,6 +78,7 @@ builder.Services.AddScoped<ISolarPlantRepo, SolarPlantRepo>();
 builder.Services.AddScoped<IProductionRepo, ProductionRepo>();
 builder.Services.AddScoped<IProductionQueryBuilder, ProductionQueryBuilder>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IForecastRepository, ForecastRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
@@ -81,6 +87,8 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("SolarPower")
     .AddEntityFrameworkStores<SolarPowerAuthContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddHttpClient<ForecastRepository>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -103,6 +111,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = settings?.Jwt?.Audience ?? String.Empty,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings?.Jwt?.Key ?? String.Empty))
     });
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

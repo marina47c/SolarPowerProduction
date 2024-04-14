@@ -7,7 +7,7 @@ namespace SolarPowerAPI.Models.DTOs.SolarPlantDTOs
         public string? Name { get; set; }
 
         [Required]
-        public int InstalledPower { get; set; }
+        public double InstalledPower { get; set; }
 
         [Required]
         public DateTime DateOfInstallation { get; set; }

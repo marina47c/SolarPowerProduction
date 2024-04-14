@@ -8,6 +8,7 @@ using SolarPowerAPI.Repositories;
 
 namespace SolarPowerPlantAPI.Controllers
 {
+    //TODO: uncomment all authorizations
     [Route("api/[controller]")]
     [ApiController]
     public class SolarPlantController : ControllerBase
@@ -22,7 +23,7 @@ namespace SolarPowerPlantAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Reader, Writer")]
+        //[Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetAll()
         {
             List<SolarPlant> solarPlants = await _repository.GetAllAsync();

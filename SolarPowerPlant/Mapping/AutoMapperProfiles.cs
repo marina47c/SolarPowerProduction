@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SolarPowerAPI.Models.DTOs.ForecastDTOs;
 using SolarPowerAPI.Models.DTOs.ProductionDTOs;
 using SolarPowerAPI.Models.DTOs.SolarPlantDTOs;
 using SolarPowerAPI.Models.Entities;
@@ -12,8 +13,8 @@ namespace SolarPowerPlantAPI.Mapping
             CreateMap<SolarPlant, GetSolarPlantDTO>().ReverseMap();
             CreateMap<SolarPlant, AddSolarPlantRequestDto>().ReverseMap();
             CreateMap<SolarPlant, UpdateSolarPlantRequestDto>().ReverseMap();
-
             CreateMap<Production, GetProductionDto>().ReverseMap();
+            CreateMap<Forecast, GetForecastDto>().ReverseMap();
         }
     }
 }

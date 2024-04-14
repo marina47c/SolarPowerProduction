@@ -12,7 +12,7 @@ namespace SolarPowerAPI.Mock
         // Random number generator
         Random random = new Random();
 
-        public List<Production> CreateMockPowerProduction(Guid solarPowerPlantId, int installedPower, DateTime productionStartDateTime, DateTime productionEndDateTime)
+        public List<Production> CreateMockPowerProduction(Guid solarPowerPlantId, double installedPower, DateTime productionStartDateTime, DateTime productionEndDateTime)
         {
             DateTime currentDateTime = productionStartDateTime;
             List<Production> powerProductionMock = new();
@@ -33,7 +33,8 @@ namespace SolarPowerAPI.Mock
             return powerProductionMock;
         }
 
-        private double GetMockProducedPower(TimeOnly currentTime, int installedPower)
+        // TODO: replace this with GetTimeEffectOnProduction from PredisctProduction
+        private double GetMockProducedPower(TimeOnly currentTime, double installedPower)
         {
             PeriodOfDay? periodOfDay = GetPeriodOfDay(currentTime);
             if (periodOfDay == null)
@@ -43,7 +44,8 @@ namespace SolarPowerAPI.Mock
 
             // Define power production variables
             double noPowerProduction = 0;
-            double quarterInstalledPower = installedPower / 4;
+            // devide with 4 because we are setting 15 min data
+            double quarterInstalledPower = installedPower / 4; 
             double lowPowerProduction = quarterInstalledPower * LowPowerProductionFactor;
             double moderatePowerProduction = quarterInstalledPower * ModeratePowerProductionFactor;
 

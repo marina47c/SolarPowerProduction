@@ -2,19 +2,19 @@
 using SolarPowerAPI.Models.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace SolarPowerAPI.Models.DTOs.ProductionDTOs
+namespace SolarPowerAPI.Models.DTOs.ForecastDTOs
 {
-    public class GetProductionRequestDto
+    public class GetForecastRequestDto
     {
         [Required]
         public Guid SolarPlantId { get; set; }
 
-        [Required]
-        [DateNotInFuture]
-        public DateTime StartDateTime { get; set; }
+        [DateNotInPast]
+        public DateTime StartDateTime { get; set; } = DateTime.Now;
 
         [Required]
-        [DateNotInFuture]
+        [DateNotInPast]
+        [DateNotMoreThanSixDaysFromNow]
         [EndDateNotBeforeStartDate]
         public DateTime EndDateTime { get; set; }
 
