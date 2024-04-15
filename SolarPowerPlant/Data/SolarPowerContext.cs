@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolarPowerAPI.Mock;
 using SolarPowerAPI.Models.Entities;
-using System.Collections.Generic;
 
 namespace SolarPowerAPI.Data
 {

@@ -1,5 +1,4 @@
 ﻿using SolarPowerAPI.Models.Entities;
-using System.Collections.Generic;
 
 namespace SolarPowerAPI.Mock
 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolarPowerAPI.CustomActionFilters;
 using SolarPowerAPI.Models.DTOs.ForecastDTOs;
@@ -22,7 +23,7 @@ namespace SolarPowerAPI.Controllers
 
         [HttpGet]
         [ValidateModel]
-        //[Authorize(Roles = "Reader, Writer")]
+        [Authorize(Roles = "Reader, Writer")]
         public async Task<IActionResult> GetForecast([FromQuery] GetForecastRequestDto getForecastRequest)
         {
             List<Forecast>? forecast = await _repository.GetForecastedDataAsync(getForecastRequest);

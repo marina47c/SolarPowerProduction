@@ -18,10 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 Settings? settings = builder.Configuration.GetSection("Settings").Get<Settings>();
 
-//TODO: remove console, uncomment file logging
 var logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    //.WriteTo.File(path: settings?.LogsLocation ?? "Logs/SolarPower_log.txt", rollingInterval: RollingInterval.Day)
+    //.WriteTo.Console()
+    .WriteTo.File(path: settings?.LogsLocation ?? "Logs/SolarPower_log.txt", rollingInterval: RollingInterval.Day)
     .MinimumLevel.Warning()
     .CreateLogger();
 
@@ -31,7 +30,6 @@ builder.Logging.AddSerilog(logger);
 builder.Services.AddTransient<SolarPlantsMock>();
 builder.Services.AddTransient<ProductionMock>();
 builder.Services.AddTransient<RolesMock>();
-//TODO: to be transient, or not to be..., to create interface or not to create...
 builder.Services.AddTransient<PredictProductionHelper>();
 
 builder.Services.AddAutoMapper(typeof(Program));

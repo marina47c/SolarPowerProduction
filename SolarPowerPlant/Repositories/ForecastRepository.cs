@@ -110,10 +110,8 @@ namespace SolarPowerAPI.Repositories
             double weatherEffectOnProduction = _predictorHelper.GetWatherEffectOnProduction(weatherCode);
             double temperatureEffectOnProduction = _predictorHelper.GetTemperatureEffectOnProduction(temperature);
             double maxProduction = level == GranularityLevel.FifteenMinutes ? installedPower / 4 : installedPower;
-
-            double production = timeEffectOnProduction * weatherEffectOnProduction * temperatureEffectOnProduction * maxProduction;
-
-            return production;
+           
+            return timeEffectOnProduction * weatherEffectOnProduction * temperatureEffectOnProduction * maxProduction;
         }
     }
 }

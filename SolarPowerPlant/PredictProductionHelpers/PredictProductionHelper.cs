@@ -1,5 +1,4 @@
 ﻿using SolarPowerAPI.Enums;
-using System;
 
 namespace SolarPowerAPI.PredictProductionHelpers
 {
@@ -9,15 +8,15 @@ namespace SolarPowerAPI.PredictProductionHelpers
 
         private readonly SortedDictionary<TimeOnly, ProductionFactors> periodMap = new SortedDictionary<TimeOnly, ProductionFactors>()
         {
+            { new TimeOnly(7, 0), ProductionFactors.NoProductionFactor },
+            { new TimeOnly(9, 0), ProductionFactors.LowProductionFactor },
+            { new TimeOnly(11, 0), ProductionFactors.ModerateProductionFactor},
+            { new TimeOnly(13, 0), ProductionFactors.HightProductionFactor },
+            { new TimeOnly(15, 0), ProductionFactors.TopProductionFactor },
+            { new TimeOnly(17, 0), ProductionFactors.HightProductionFactor },
+            { new TimeOnly(19, 0), ProductionFactors.ModerateProductionFactor },
+            { new TimeOnly(21, 0), ProductionFactors.LowProductionFactor },
             { new TimeOnly(0, 0), ProductionFactors.NoProductionFactor },
-            { new TimeOnly(7, 0), ProductionFactors.LowProductionFactor },
-            { new TimeOnly(9, 0), ProductionFactors.ModerateProductionFactor},
-            { new TimeOnly(11, 0), ProductionFactors.HightProductionFactor },
-            { new TimeOnly(13, 0), ProductionFactors.TopProductionFactor },
-            { new TimeOnly(15, 0), ProductionFactors.HightProductionFactor },
-            { new TimeOnly(17, 0), ProductionFactors.ModerateProductionFactor },
-            { new TimeOnly(19, 0), ProductionFactors.LowProductionFactor },
-            { new TimeOnly(21, 0), ProductionFactors.NoProductionFactor },
         };
 
         private readonly SortedDictionary<WeatherCode, ProductionFactors> weatherMap = new SortedDictionary<WeatherCode, ProductionFactors>()
@@ -97,6 +96,11 @@ namespace SolarPowerAPI.PredictProductionHelpers
             }
 
             return (double)temperature.Value / 100;
+        }
+
+        public double GetRandomFactorEffect(double minNumber, double maxNumber)
+        {
+            return random.NextDouble() * (maxNumber - minNumber) + minNumber;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SolarPowerAPI.Models.DTOs.ForecastDTOs;
+using SolarPowerAPI.Models.DTOs.ProductionDTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace SolarPowerAPI.Models.Validation
@@ -10,8 +11,18 @@ namespace SolarPowerAPI.Models.Validation
             if (value != null)
             {
                 DateTime endDate = (DateTime)value;
-                GetForecastRequestDto request = (GetForecastRequestDto)validationContext.ObjectInstance;
-                DateTime startDate = request.StartDateTime;
+                DateTime startDate = DateTime.MinValue;
+
+                if (validationContext.ObjectInstance is GetForecastRequestDto)
+                {
+                    GetForecastRequestDto request = (GetForecastRequestDto)validationContext.ObjectInstance;
+                    startDate = request.StartDateTime;
+                }
+                else if (validationContext.ObjectInstance is GetProductionRequestDto)
+                {
+                    GetProductionRequestDto request = (GetProductionRequestDto)validationContext.ObjectInstance;
+                    startDate = request.StartDateTime;
+                }
 
                 if (endDate < startDate)
                 {

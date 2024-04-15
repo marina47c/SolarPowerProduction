@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SolarPowerAPI.Mock;
-using SolarPowerAPI.Models.Entities;
-using System.Reflection.Emit;
 
 namespace SolarPowerAPI.Data
 {

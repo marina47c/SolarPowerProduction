@@ -9,10 +9,12 @@ namespace SolarPowerAPI.Repositories
     public class ProductionRepo : IProductionRepo
     {
         readonly IProductionQueryBuilder _queryBuilder;
+        private readonly ILogger<ProductionRepo> _logger;
 
-        public ProductionRepo(IProductionQueryBuilder queryBuilder)
+        public ProductionRepo(IProductionQueryBuilder queryBuilder, ILogger<ProductionRepo> logger)
         {
             _queryBuilder = queryBuilder;
+            _logger = logger;
         }
 
         public async Task<List<Production>?> GetProductionAsync(GetProductionRequestDto getProductionRequest)
@@ -34,9 +36,9 @@ namespace SolarPowerAPI.Repositories
                         return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //TODO: log
+                _logger.LogError(ex, $"Error while trying to fetch production data: {ex.ToString()}");
                 return null;
             }
         }

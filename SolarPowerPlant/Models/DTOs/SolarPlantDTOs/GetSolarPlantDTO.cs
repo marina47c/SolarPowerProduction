@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace SolarPowerAPI.Models.DTOs.SolarPlantDTOs
+﻿namespace SolarPowerAPI.Models.DTOs.SolarPlantDTOs
 {
     public class GetSolarPlantDTO
     {
