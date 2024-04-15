@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using SolarPowerAPI.Middlewares;
 using SolarPowerAPI.PredictProductionHelpers;
+using SolarPowerAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +77,8 @@ builder.Services.AddScoped<ISolarPlantRepo, SolarPlantRepo>();
 builder.Services.AddScoped<IProductionRepo, ProductionRepo>();
 builder.Services.AddScoped<IProductionQueryBuilder, ProductionQueryBuilder>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<ForecastFactory>();
+builder.Services.AddScoped<WeatherService>();
 builder.Services.AddScoped<IForecastRepository, ForecastRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
